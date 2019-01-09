@@ -11,4 +11,4 @@ define('EXT','.php');
 
 
 \Core\Core\Start::run();
-die("一切从这里开始");
+//die("一切从这里开始");
