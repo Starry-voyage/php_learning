@@ -38,7 +38,7 @@ class Router
                 $request = array_filter(explode('/', $request_uri));
                 self::$action = isset($request[count($request)]) ? ucfirst($request[count($request)]) : DEFAULT_ACTION;
                 self::$controller = isset($request[count($request) - 1]) ? ucfirst($request[count($request) - 1]) : DEFAULT_CONTROLLER;
-                self::$model = isset($request[count($request) - 2]) ? ucfirst($request[count($request) - 2]) : DEFAULT_ACTION;
+                self::$model = isset($request[count($request) - 2]) ? ucfirst($request[count($request) - 2]) : DEFAULT_MODULE;
                 break;
             case 1:
                 break;
@@ -50,15 +50,23 @@ class Router
         }
         self::run();
     }
+
     /*
      *
      * 执行方法 (后续跟新)
      *
      */
-    public static function run(){
-        $class = APP_PATH.self::$model.'/'.self::$controller.SUFFIX.EXT;
-        $controller = new  $class;
-        print_r($controller);
-        die("eeee");
+    public static function run()
+    {
+        $class = '\\' . self::$model . '\\' . "Controller" . '\\' . self::$controller . SUFFIX;
+        if (class_exists($class)) {
+            $obj = new $class();
+            call_user_func([
+                $obj,
+                self::$action
+            ]);
+        } else {
+            die($class . "方法不存在");
+        }
     }
 }

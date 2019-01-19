@@ -18,10 +18,12 @@ class Start
     }
     #初始化配置文件
     protected static function init(){
-        define('DEFAULT_MODULE', "Index");
+        define('DEFAULT_MODULE', "Home");
         define('DEFAULT_CONTROLLER', "Index");
         define('DEFAULT_ACTION', "Index");
         define('SUFFIX', "Controller");
+        define('MODULE_NAME','Home');
+        define('MODULE_PATH', APP_PATH.MODULE_NAME.'/');
     }
     public static function run(){
         #构造函数
