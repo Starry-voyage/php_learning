@@ -25,7 +25,7 @@ class Autoload
                 include WEB_PATH.$class_path;
                 self::$map[$class]=WEB_PATH.$class_path;
             }
-            #用户应用自动加载
+            #用户应用自动加载 (根据命名空间加载)
             $class_path = APP_PATH.str_replace('\\', '/', $class) . EXT;
             if(file_exists($class_path)){
                 include WEB_PATH.$class_path;
