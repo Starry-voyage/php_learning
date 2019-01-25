@@ -26,6 +26,7 @@ class Router
         $request_uri = $_SERVER['REQUEST_URI'];
 
         #只管url映射到方法
+        //不管是哪种模式，最终解析的结果是一样的  模型model、控制器controller、方法action
         switch ($router_model) {
             case 0:
                 #普通模式 www.xx.com/home/index/index
@@ -41,6 +42,7 @@ class Router
                 self::$model = isset($request[count($request) - 2]) ? ucfirst($request[count($request) - 2]) : DEFAULT_MODULE;
                 break;
             case 1:
+                #正则匹配模式
                 break;
             case 2:
                 break;
@@ -58,15 +60,21 @@ class Router
      */
     public static function run()
     {
+        #根据命名空间调用类
         $class = '\\' . self::$model . '\\' . "Controller" . '\\' . self::$controller . SUFFIX;
         if (class_exists($class)) {
             $obj = new $class();
-            call_user_func([
-                $obj,
-                self::$action
-            ]);
+            if (method_exists($obj,self::$action)) {
+                call_user_func([
+                    $obj,
+                    self::$action
+                ]);
+            } else {
+                die("非法操作：" . self::$action);
+            }
+
         } else {
-            die($class . "方法不存在");
+            die($class . "控制器不存在");
         }
     }
 }
