@@ -18,13 +18,14 @@ class Start
     }
     #初始化配置文件
     protected static function init(){
+        include WEB_PATH."Core/function.php";#导入框架通用函数
         define('DEFAULT_MODULE', "Home");
         define('DEFAULT_CONTROLLER', "Index");
-        define('DEFAULT_ACTION', "Index");
-        define('SUFFIX', "Controller");
-        define('MODULE_NAME','Home');
+        define('F_VERSION',"1.0.0");
+        define('IS_CLI',PHP_SAPI=='cli'? 1   :   0);
         define('MODULE_PATH', APP_PATH.MODULE_NAME.'/');
     }
+
     public static function run(){
         #构造函数
         #加载框架配置文件
@@ -32,6 +33,10 @@ class Start
 //        $user_config= require_once "./Apply/Common/config.php";
         spl_autoload_register('\Core\Core\Autoload::autoLoad');
         self::init();
+        #注册错误处理
+        set_exception_handler('\Core\Core\ErrorException::exceptionHandler');
+        #路由
         Router::parseRouter();
     }
+
 }
