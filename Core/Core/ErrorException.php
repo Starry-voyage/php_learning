@@ -14,7 +14,6 @@ class ErrorException extends \Exception
     public static function exceptionHandler($e)
     {
         self::showError($e);
-        die("eeee");
     }
 
     /**
