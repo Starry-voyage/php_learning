@@ -28,7 +28,7 @@ class Autoload
             self::classMap($class, $class_path);
 
             #扩展类，自动加载默认扩展类
-            $extend_Folder = FRAME_CONFIG['Extend'] ?: '/Common/Extend/';
+            $extend_Folder = APP_PATH . FRAME_CONFIG['Extend'] ?: '/Common/Extend/';
             $class_path = $extend_Folder . str_replace('\\', '/', $class) . EXT;
             self::classMap($class, $class_path);
         }
