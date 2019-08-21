@@ -24,7 +24,7 @@ class IndexController
     public function task1()
     {
         for ($i = 1; $i <= 10; $i++) {
-            echo "task1 生成器" + $i + "<br/>";
+            echo "task1 生成器" . $i . "<br/>";
             yield;
         }
     }
@@ -32,7 +32,7 @@ class IndexController
     public function task2()
     {
         for ($i = 1; $i <= 5; $i++) {
-            echo "task2 生成器" + $i + "<br/>";
+            echo "task2 生成器" . $i . "<br/>";
             yield;
         }
     }

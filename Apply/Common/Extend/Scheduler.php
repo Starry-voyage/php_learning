@@ -17,7 +17,7 @@ class Scheduler
         $this->taskQueue = new SplQueue();
     }
 
-    public function schedule(Task $task)
+    public function schedule(\Task $task)
     {
         $this->taskQueue->enqueue($task);
     }
@@ -25,7 +25,7 @@ class Scheduler
     public function newTask(Generator $generator)
     {
         $tid = ++$this->maxTaskId;
-        $task = new Task($tid, $generator);
+        $task = new \Task($tid, $generator);
         $this->taskMap[$tid] = $task;
         $this->schedule($task);
         return $tid;
@@ -37,8 +37,8 @@ class Scheduler
             $task = $this->taskQueue->dequeue();#出队列
             $task->run();
 
-            if ($task->isFinish) {
-                unset($this->taskMap[$task->getTaskId]);
+            if ($task->isFinish()) {
+                unset($this->taskMap[$task->getTaskId()]);
             } else {
                 $this->schedule($task);
             }
