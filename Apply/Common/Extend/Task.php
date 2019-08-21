@@ -22,7 +22,10 @@ class Task
 
     public function getTaskId()
     {
-        return $this->taskId;
+        return new SystemCall(function (Task $task, Scheduler $scheduler) {
+            $task->setSendValue($task->getTaskId());
+            $scheduler->schedule($task);
+        });
     }
 
     public function setSendValue($value)
