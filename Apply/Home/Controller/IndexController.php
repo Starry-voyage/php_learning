@@ -21,11 +21,29 @@ class IndexController
     }
 
 
-    public function task($max){
+    public function task($max)
+    {
+        $tid = (yield $this->getTaskId()); //here's the syscall
         for ($i = 1; $i <= $max; $i++) {
-            echo "task 生成器" . $i . "<br/>";
+            echo "task " . $tid . " 生成器" . $i . "<br/>";
             yield;
         }
+    }
+
+    function newTask()
+    {
+    }
+
+    function killTask($tid)
+    {
+    }
+
+    function getTaskId()
+    {
+        return new \SystemCall(function (\Task $task, \Scheduler $scheduler) {
+            $task->setSendValue($task->getTaskId());
+            $scheduler->schedule($task);
+        });
     }
 
 
@@ -34,8 +52,19 @@ class IndexController
         print_r($data . "<br/>");
     }
 
+    function t()
+    {
+        echo "hahh";
+        yield 1;
+        yield 2;
+    }
+
     public function test()
     {
+        $a = $this->t();
+        foreach ($a as $t) {
+            echo $t;
+        }
         die("这是home模块index控制器下的test");
     }
 
